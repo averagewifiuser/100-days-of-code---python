@@ -28,6 +28,7 @@ implemented using doubly linked lists
 
 
 '''
+INTRO
 Linked List - is a linear data structure,
 in which the elements are not stored at 
 contiguous memory locations. The elements in a linked 

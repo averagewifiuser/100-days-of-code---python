@@ -20,7 +20,7 @@ def register():
 
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
 
-    new_user = User(username=data['username'], email=data['email'], name=data['email'], password=hashed_password)
+    new_user = User(username=data['username'], email=data['email'], name=data['name'], password=hashed_password)
     UserManager.save(new_user)
     return success_response()
 
@@ -28,8 +28,7 @@ def register():
 @user.route('/login/', methods=['POST'])
 def login():
     data = request.get_json()['data']
-    user = UserManager.get_by_username(data['email'])
-
+    user = UserManager.get_by_email(data['email'])
     if user and bcrypt.check_password_hash(user.password, data['password']):
         payload_data = {
             'email': data['email'],

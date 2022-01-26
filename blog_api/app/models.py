@@ -18,7 +18,7 @@ class User(AbstractModel):
     __tablename__ = 'user'
 
     username = db.Column(db.String(255), nullable=False, unique=True)
-    email = db.Column(db.String(100), nullabe=False, unique=True)
+    email = db.Column(db.String(100), nullable=False, unique=True)
     name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.Enum('admin','member'), nullable=False, server_default="member")

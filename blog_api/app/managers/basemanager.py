@@ -1,0 +1,12 @@
+from ..extensions import db
+
+class BaseManager:
+    @staticmethod
+    def save(entity):
+        db.session.add(entity)
+        db.session.commit()
+
+    @staticmethod
+    def delete(entity):
+        db.session.delete(entity)
+        db.session.commit()

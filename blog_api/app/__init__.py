@@ -30,6 +30,7 @@ def create_app():
     app.register_error_handler(403, forbidden)
 
     with app.app_context():
+        
         @app.after_request
         def after_request(response):
             header = response.headers

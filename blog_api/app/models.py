@@ -24,6 +24,16 @@ class User(AbstractModel):
     role = db.Column(db.Enum('admin','member'), nullable=False, server_default="member")
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return f'<User {self.username}>'
+
+
+class Post(AbstractModel):
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post<'{self.title}', '{self.date_posted}'>"
 
     

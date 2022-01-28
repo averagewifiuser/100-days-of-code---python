@@ -3,6 +3,7 @@ from flask import Flask
 
 from .main.routes import main
 from .users.routes import user
+from .posts.routes import post
 
 from .extensions import *
 from .models import *
@@ -22,6 +23,7 @@ def create_app():
     #register blueprints
     app.register_blueprint(main, url_prefix='/api')
     app.register_blueprint(user, url_prefix='/api/users')
+    app.register_blueprint(post, url_prefix='/api')
 
     #registering errorhandlers
     app.register_error_handler(404, page_not_found)

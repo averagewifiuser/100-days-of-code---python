@@ -15,8 +15,7 @@ def error_response(status_code, message=None):
 def success_response(message='success', data=None):
     if data:
         response = {'data': data}
-    
-    if message:
+    elif message:
         response = {'message': message}
 
     #for both

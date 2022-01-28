@@ -30,16 +30,16 @@ def get_posts():
 
 @post.route('/posts/<post_id>/', methods=['GET'])
 def get_post(post_id):
-    p = PostManager.get_by_id(post_id)
-    if not p:
+    post = PostManager.get_by_id(post_id)
+    if not post:
         return not_found('That post does not exist!')
     
     data = {
-        'title': p.title,
-        'content': p.content,
-        'created_at': p.created_at,
-        'user_id': p.user_id,
-        'id': p.id
+        'title': post.title,
+        'content': post.content,
+        'created_at': post.created_at,
+        'user_id': post.user_id,
+        'id': post.id
     }
     return success_response(data=data)
 
@@ -93,4 +93,20 @@ def update_post(post_id):
     post.title = data['title']
     post.content = data['content']
     PostManager.save(post)
+    return success_response()
+
+
+@post.route('/posts/<post_id>/delete/', methods=['POST'])
+@token_auth
+def delete_post(post_id):
+    data = request.get_json()['data']
+    post = PostManager.get_by_id(post_id)
+
+    if not post:
+        return bad_request('Post not found!')
+
+    if post.user_id != data['user_id']:
+        return unauthorized_request()
+
+    PostManager.delete(post)
     return success_response()

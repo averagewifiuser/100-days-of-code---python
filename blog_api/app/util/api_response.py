@@ -12,16 +12,17 @@ def error_response(status_code, message=None):
     return response
 
 
-def success_response(message='success', data=None):
+def success_response(message=None, data=None):
     if data:
         response = {'data': data}
     elif message:
         response = {'message': message}
+    else:
+        response = {'message':'success'}
 
     #for both
     if data and message:
         response = {'data': data, 'message': message}
-
     return jsonify(response), 200
 
 

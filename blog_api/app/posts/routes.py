@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from ..models import Post
 from ..managers.postmanager import PostManager
 from ..managers.commentmanager import CommentManager
+from ..managers.usermanager import UserManager
 from ..util.api_response import *
 from ..util.decorators import token_auth
 
@@ -20,9 +21,10 @@ def get_posts():
         p={}
         p['title'] = x.title
         p['content'] = x.content
-        p['user_id'] = x.user_id
         p['created_at'] = x.created_at
         p['id'] = x.id
+        p['user'] = {'username': UserManager.get_by_id(x.user_id).username, 
+                    'email':UserManager.get_by_id(x.user_id).email, 'id':x.user_id}
 
         data.append(p)
 
@@ -40,7 +42,8 @@ def get_post(post_id):
     comments = CommentManager.get_post_comments(post.id)
     for comment in comments:
         c = {}
-        c['user_id'] = comment.user_id
+        c['user'] = {'username': UserManager.get_by_id(comment.user_id).username, 
+                    'email':UserManager.get_by_id(comment.user_id).email, 'id':comment.user_id}
         c['content'] = comment.content
         c['id'] = comment.id
         c['created_at'] = comment.created_at
@@ -51,7 +54,8 @@ def get_post(post_id):
         'title': post.title,
         'content': post.content,
         'created_at': post.created_at,
-        'user_id': post.user_id,
+        'user': {'username': UserManager.get_by_id(post.user_id).username,
+                'email':UserManager.get_by_id(post.user_id).email, 'id':post.user_id},
         'id': post.id,
         'comments': comment_data
     }
@@ -69,7 +73,6 @@ def get_user_posts(user_id):
         p={}
         p['title'] = x.title
         p['content'] = x.content
-        p['user_id'] = x.user_id
         p['created_at'] = x.created_at
         p['id'] = x.id
 

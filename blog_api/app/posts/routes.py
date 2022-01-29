@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from ..models import Post
 from ..managers.postmanager import PostManager
+from ..managers.commentmanager import CommentManager
 from ..util.api_response import *
 from ..util.decorators import token_auth
 
@@ -33,13 +34,26 @@ def get_post(post_id):
     post = PostManager.get_by_id(post_id)
     if not post:
         return not_found('That post does not exist!')
+
+    #fetch the comments on the post
+    comment_data = []
+    comments = CommentManager.get_post_comments(post.id)
+    for comment in comments:
+        c = {}
+        c['user_id'] = comment.user_id
+        c['content'] = comment.content
+        c['id'] = comment.id
+        c['created_at'] = comment.created_at
+
+        comment_data.append(c)
     
     data = {
         'title': post.title,
         'content': post.content,
         'created_at': post.created_at,
         'user_id': post.user_id,
-        'id': post.id
+        'id': post.id,
+        'comments': comment_data
     }
     return success_response(data=data)
 

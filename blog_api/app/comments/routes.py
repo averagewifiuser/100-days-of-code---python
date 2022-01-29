@@ -13,7 +13,7 @@ comment = Blueprint('comment', __name__)
 def create_comment():
     data = request.get_json()['data']
 
-    new_comment = Comment(user_id=data['user_id'], post_id=['post_id'], content=['content'])
+    new_comment = Comment(user_id=data['user_id'], post_id=data['post_id'], content=['content'])
     CommentManager.save(new_comment)
     return success_response()
 

@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from ..util.api_response import *
+from ..util.schemaverification import VerifySchema
 from ..util.decorators import token_auth
 from ..managers.commentmanager import CommentManager
 from ..models import Comment
@@ -12,7 +13,10 @@ comment = Blueprint('comment', __name__)
 @token_auth
 def create_comment():
     data = request.get_json()['data']
-
+    verify_schema = VerifySchema.verify_comment_schema(data)
+    if False in verify_schema:
+        return bad_request(verify_schema[1])
+        
     new_comment = Comment(user_id=data['user_id'], post_id=data['post_id'], content=['content'])
     CommentManager.save(new_comment)
     return success_response()

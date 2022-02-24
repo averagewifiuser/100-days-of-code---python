@@ -1,0 +1,17 @@
+{% extends "smoothie/base.html" %} 
+
+{% block content %} 
+<ul class="recipes">
+    {% if smoothies %}
+        {% for smoothie in smoothies %}
+            <li class="recipe">
+            <img src="/media/smoothie.png" alt="smoothie recipe icon">
+            <h4>{{ smoothie.name }}</h4>
+            <p>{{ smoothie.ingredients }}</p>
+            </li>
+        {% endfor %}
+    {% else %} 
+        <p class="none">No Recipies made yet!</p>
+    {% endif %}
+  </ul>
+{% endblock content %} 

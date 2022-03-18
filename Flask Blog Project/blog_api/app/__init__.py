@@ -1,4 +1,3 @@
-from sys import prefix
 from flask import Flask
 
 from .main.routes import main
